@@ -4,6 +4,20 @@ var path = require("path")
 const port = 8080
 
 module.exports = {
+    
+    // vue.config.js
+    devServer: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8080',  //  Spring Boot 后端地址
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api': ''
+          }
+        }
+      }
+    }
+  
     // devServer: {
     // port,
     // proxy: {
@@ -37,6 +51,7 @@ module.exports = {
     //     }
     // }
     // },
+    ,
     chainWebpack: config => {
         //配置 alias 
         config.resolve.alias.set("~", path.resolve(__dirname, './public'))
