@@ -1,3 +1,63 @@
+axios.post('/api/register', this.registerForm, {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+.then(response => {
+  this.$message.success(response.data);
+  this.$router.push('/login');
+})
+.catch(error => {
+  const msg = (error.response && error.response.data) || '注册失败';
+  this.$message.error(msg);
+});
+
+
+export default {
+  name: 'Register',
+  data() {
+    return {
+      registerForm: {
+        username: '',
+        password: '',
+        email: '',
+        phone: ''
+      },
+      loading: false,
+      rules: {
+        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+        phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }]
+      }
+    };
+  },
+  methods: {
+    handleRegister() {
+      this.$refs.registerForm.validate((valid) => {
+        if (valid) {
+          this.loading = true;
+          // 使用 qs.stringify 格式化数据
+          axios.post('/api/register', qs.stringify(this.registerForm))
+            .then((response) => {
+              this.$message.success(response.data);
+              this.$router.push('/login');
+            })
+            .catch((error) => {
+              const msg = (error.response && error.response.data) || '注册失败';
+              this.$message.error(msg);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        }
+      });
+    }
+  }
+};
+
+
+
 <template>
   <div class="login-container">
     <el-form ref="registerForm" :model="registerForm" :rules="rules" class="login-form" auto-complete="on" label-position="left">

@@ -11,6 +11,11 @@ Vue.use(VueDND)
 import VueVideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
 
+import axios from 'axios';
+
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+
 Vue.use(VueVideoPlayer, /* {
   options: global default options,
   events: global videojs events
